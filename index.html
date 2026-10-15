@@ -85,15 +85,15 @@ p{max-width:65ch}
 .theme .papers{font-size:.9rem;color:var(--muted);margin-top:12px}
 
 /* People */
-.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;align-items:start}
 .person{background:var(--surface);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:4px}
 .person .role{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .person p{margin:8px 0 0;font-size:.94rem}
 .cv-link{display:inline-block;padding:9px 16px;border:1px solid var(--accent);color:var(--accent);text-decoration:none;font-weight:500;border-radius:3px}
 .cv-link:hover{background:var(--accent-soft);color:var(--accent)}
-.pi-wrap{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;align-items:start}
-.pi-wrap img{width:100%;max-width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:var(--rule)}
-@media (max-width:600px){.pi-wrap{grid-template-columns:minmax(0,1fr)}.pi-wrap img{max-width:200px}}
+.avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;margin-bottom:12px;background:var(--accent-soft)}
+.avatar.initials{display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:1.6rem;color:var(--accent);letter-spacing:.04em}
+.person .sub{margin:0;font-size:.9rem;color:var(--muted)}
 .pi{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:24px;background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);margin-bottom:28px}
 .alumni{columns:2 260px;column-gap:32px;padding:0;margin:0;list-style:none}
 .alumni li{break-inside:avoid;padding:8px 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;font-size:.95rem}
@@ -253,20 +253,12 @@ footer p{margin:0}
     <p class="eyebrow">People</p>
     <h1 id="h-people">The lab</h1>
   </div>
-  <div class="pi pi-wrap">
-    <img src="amy-boddy.jpg" alt="Portrait of Amy M. Boddy" width="640" height="962">
-    <div style="display:grid;gap:8px;min-width:0">
-    <span class="role eyebrow" style="margin:0">Principal Investigator</span>
-    <h2>Amy M. Boddy, PhD</h2>
-    <p class="muted" style="margin:0">Professor, Department of Anthropology, UC Santa Barbara</p>
-    <p>Amy is a human biologist and evolutionary theorist. She received her PhD in Molecular Biology and Genetics from Wayne State University School of Medicine and held postdoctoral positions at UC San Francisco and Arizona State University before joining UCSB in 2017. She is Co-Director of the <a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a>. She received the UCSB Distinguished Faculty Teaching Award in 2023 and is a 2026–27 Public Voices Fellow of The OpEd Project.</p>
-    </div>
-  </div>
   <div class="people">
-    <div class="person"><span class="role">Graduate Student</span><h3>Cristiano Parmeggiani</h3><p>Cristiano is a PhD student in biological anthropology with a background in the humanities and the evolutionary sciences. He studies microchimerism, placental evolution, and cancer prevalence across mammals.</p></div>
-    <div class="person"><span class="role">Graduate Student</span><h3>Janine Rose Klein</h3><p class="muted">Bio coming soon.</p></div>
-    <div class="person"><span class="role">Graduate Student</span><h3>Lucia Rejzek</h3><p class="muted">Bio coming soon.</p></div>
-    <div class="person"><span class="role">Undergraduate Researcher</span><h3>Manya Weissfeld</h3><p class="muted">Bio coming soon.</p></div>
+    <div class="person"><img class="avatar" src="amy-boddy-square.jpg" alt="Amy M. Boddy" width="400" height="400"><span class="role">Principal Investigator</span><h3>Amy M. Boddy, PhD</h3><p class="sub">Professor, Department of Anthropology</p><p>Amy is a human biologist and evolutionary theorist. She received her PhD in Molecular Biology and Genetics from Wayne State University School of Medicine and held postdoctoral positions at UC San Francisco and Arizona State University before joining UCSB in 2017. She is Co-Director of the <a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a>, received the UCSB Distinguished Faculty Teaching Award in 2023, and is a 2026–27 Public Voices Fellow of The OpEd Project.</p></div>
+    <div class="person"><span class="avatar initials" aria-hidden="true">CP</span><span class="role">Graduate Student</span><h3>Cristiano Parmeggiani</h3><p>Cristiano is a PhD student in biological anthropology with a background in the humanities and the evolutionary sciences. He studies microchimerism, placental evolution, and cancer prevalence across mammals.</p></div>
+    <div class="person"><span class="avatar initials" aria-hidden="true">JK</span><span class="role">Graduate Student</span><h3>Janine Rose Klein</h3><p class="muted">Bio coming soon.</p></div>
+    <div class="person"><span class="avatar initials" aria-hidden="true">LR</span><span class="role">Graduate Student</span><h3>Lucia Rejzek</h3><p class="muted">Bio coming soon.</p></div>
+    <div class="person"><span class="avatar initials" aria-hidden="true">MW</span><span class="role">Undergraduate Researcher</span><h3>Manya Weissfeld</h3><p class="muted">Bio coming soon.</p></div>
   </div>
 
   <h2 style="margin:56px 0 16px">Alumni</h2>
