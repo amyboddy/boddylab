@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Boddy Lab at UC Santa Barbara studies pregnancy, postpartum health, microchimerism, and cancer across species using evolutionary theory.">
+<title>Boddy Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: single column, left-aligned reading width; sticky lab masthead with page tabs; one page visible at a time (hash routed). */
+:root{
+  /* Palette from Amy's CV: magenta #BF307F, deep blue #024873, charcoal text */
+  --bg:#ffffff; --surface:#ffffff; --ink:#3d3f40; --muted:#66696b; --rule:#e3e6e8;
+  --accent:#bf307f; --accent-soft:#f8e9f1; --teal:#024873; --heading:#024873;
+  --f-display:"Jost", Futura, "Century Gothic", "Trebuchet MS", sans-serif;
+  --f-body:"Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --surface:#15232d; --ink:#e3e8ec; --muted:#9aa8b2; --rule:#263643;
+  --accent:#e27ab0; --accent-soft:#3a1d2c; --teal:#8cc3e6; --heading:#cfe3f2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --surface:#15232d; --ink:#e3e8ec; --muted:#9aa8b2; --rule:#263643;
+  --accent:#e27ab0; --accent-soft:#3a1d2c; --teal:#8cc3e6; --heading:#cfe3f2; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+a{color:var(--teal);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+header.mast{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.mast .wrap{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;padding-block:14px}
+.brand{font-family:var(--f-display);font-size:1.4rem;font-weight:400;color:var(--heading);text-decoration:none;letter-spacing:.05em;text-transform:uppercase}
+.brand b{color:var(--accent);font-weight:500}
+.brand small{display:block;font-family:var(--f-body);font-size:.7rem;font-weight:400;letter-spacing:.06em;text-transform:none;color:var(--muted)}
+nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 18px}
+nav a{font-size:.92rem;color:var(--muted);text-decoration:none;padding-block:4px;border-bottom:2px solid transparent}
+nav a:hover{color:var(--ink)}
+nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+main{padding-block:48px 72px}
+section.page{display:none}
+section.page.on{display:block}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;text-wrap:balance;letter-spacing:0;margin:0;color:var(--heading)}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15}
+h2{font-size:1.55rem;line-height:1.25}
+h3{font-size:1.15rem;line-height:1.35}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.lede{font-size:1.15rem;max-width:62ch;color:var(--ink);margin:18px 0 0}
+p{max-width:65ch}
+.muted{color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:40px}
+.page-head{margin-bottom:36px;max-width:65ch}
+
+/* Home hero */
+.hero{display:block;max-width:760px}
+.hero svg{width:100%;max-width:320px;height:auto;justify-self:center}
+.hero svg .mom{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.hero svg .fetus{fill:var(--surface);stroke:var(--teal);stroke-width:1.5}
+.hero svg .c-a{fill:var(--accent)}
+.hero svg .c-t{fill:var(--teal)}
+.hero svg text{fill:var(--muted);font-family:var(--f-mono);font-size:9px;letter-spacing:.08em}
+@media (prefers-reduced-motion:no-preference){
+  .drift{animation:drift 9s ease-in-out infinite alternate}
+  .drift.d2{animation-duration:11s}.drift.d3{animation-duration:13s}
+  @keyframes drift{to{transform:translate(4px,-3px)}}
+}
+.themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:56px}
+.themes a{background:var(--surface);padding:22px 22px 24px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.themes a:hover h3{color:var(--accent)}
+.themes p{margin:0;font-size:.95rem;color:var(--muted)}
+.enroll{margin:24px 0 0;padding:12px 16px;background:var(--accent-soft);border-radius:3px;font-size:.95rem;max-width:60ch}
+.enroll strong{color:var(--accent);font-weight:600}
+.facts{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:40px;font-size:.92rem;color:var(--muted)}
+.facts strong{color:var(--ink);font-weight:500}
+
+/* Research */
+.theme{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:8px 28px;padding-top:28px;border-top:1px solid var(--rule)}
+.theme .tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);padding-top:5px}
+.theme p{margin:10px 0 0}
+.theme .papers{font-size:.9rem;color:var(--muted);margin-top:12px}
+
+/* People */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.person{background:var(--surface);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:4px}
+.person .role{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.person p{margin:8px 0 0;font-size:.94rem}
+.cv-link{display:inline-block;padding:9px 16px;border:1px solid var(--accent);color:var(--accent);text-decoration:none;font-weight:500;border-radius:3px}
+.cv-link:hover{background:var(--accent-soft);color:var(--accent)}
+.pi-wrap{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;align-items:start}
+.pi-wrap img{width:100%;max-width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:var(--rule)}
+@media (max-width:600px){.pi-wrap{grid-template-columns:minmax(0,1fr)}.pi-wrap img{max-width:200px}}
+.pi{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:24px;background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);margin-bottom:28px}
+.alumni{columns:2 260px;column-gap:32px;padding:0;margin:0;list-style:none}
+.alumni li{break-inside:avoid;padding:8px 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;font-size:.95rem}
+.alumni span{color:var(--muted);font-size:.85rem;text-align:right}
+.alumni span.who{color:var(--ink);font-size:inherit;text-align:left}
+.alumni .who small{display:block;font-size:.82rem;color:var(--muted)}
+
+/* Publications */
+.pub-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:28px}
+.pub-tools input{font:inherit;font-size:.95rem;padding:8px 12px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);width:min(100%,320px);border-radius:3px}
+.pub-tools .count{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.year{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:8px 24px;padding-top:18px;border-top:1px solid var(--rule);margin-top:18px}
+.year > h3{font-family:var(--f-mono);font-weight:500;font-size:.95rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.year ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.pub .t{font-family:var(--f-display);font-size:1.05rem;line-height:1.4;color:var(--ink);text-decoration:none}
+.pub .t:hover{color:var(--accent);text-decoration:underline}
+.pub .a{font-size:.88rem;color:var(--muted);margin-top:2px}
+.pub .a b{color:var(--ink);font-weight:600}
+.pub .v{font-size:.88rem;font-style:italic;color:var(--muted)}
+.badge{display:inline-block;font-family:var(--f-mono);font-style:normal;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:2px;margin-left:6px;vertical-align:1px}
+
+/* CV */
+.cv-block h2{font-size:1.2rem;margin-bottom:12px}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:4px 20px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.rows .when{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.rows .what{min-width:0}
+.rows .what span{display:block;font-size:.9rem;color:var(--muted)}
+
+/* Media */
+.press{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}
+.press li{padding:14px 0;border-bottom:1px solid var(--rule);min-width:0}
+.press .outlet{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.press a{display:block;font-family:var(--f-display);font-size:1.05rem;line-height:1.4;text-decoration:none;color:var(--ink);margin-top:2px}
+.press a:hover{color:var(--accent);text-decoration:underline}
+.press .by{font-size:.86rem;color:var(--muted)}
+
+.news{list-style:none;margin:0;padding:0;max-width:760px}
+.news li{display:grid;grid-template-columns:8rem minmax(0,1fr);gap:6px 28px;padding:24px 0;border-top:1px solid var(--rule)}
+.news time{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
+.news .kind{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.news h2{font-size:1.3rem;margin:4px 0 0}
+.news p{margin:10px 0 0}
+.news .cite{font-size:.88rem;color:var(--muted)}
+@media (max-width:600px){.news li{grid-template-columns:minmax(0,1fr)}}
+.empty{border:1px dashed var(--rule);padding:32px;color:var(--muted);max-width:65ch}
+
+footer{border-top:1px solid var(--rule);font-size:.9rem;color:var(--muted)}
+footer .wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-block:32px 40px}
+footer h4{font-family:var(--f-mono);font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
+footer p{margin:0}
+.email{user-select:all;color:var(--ink)}
+
+@media (max-width:720px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero svg{max-width:240px;justify-self:start}
+  .themes,.press{grid-template-columns:minmax(0,1fr)}
+  .theme,.year{grid-template-columns:minmax(0,1fr)}
+  .rows li{grid-template-columns:minmax(0,1fr)}
+  footer .wrap{grid-template-columns:minmax(0,1fr)}
+  main{padding-block:32px 56px}
+}
+</style>
+<style>[hidden]{display:none!important} img{max-width:100%}</style>
+</head>
+<body>
+
+
+<header class="mast">
+  <div class="wrap">
+    <a class="brand" href="#home">Boddy <b>Lab</b><small>Evolution, Reproduction &amp; Health · UC Santa Barbara</small></a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#people">People</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#news">News</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="page" id="page-home" aria-labelledby="h-home">
+  <div class="hero">
+    <div>
+      <h1 id="h-home">How reproduction shapes health, across the lifespan and across species</h1>
+      <p class="lede">We use evolutionary theory to study pregnancy, postpartum health, and the cells that pass between mother and fetus. We also study what reproduction costs the body, including cancer risk, from human mothers to species across the tree of life.</p>
+      <p class="enroll"><strong>Now enrolling:</strong> the Pregnancy Experiences Study, on how pregnant and postpartum people navigate their care. <a href="https://momshealth.anth.ucsb.edu/research-studies/pregnancy-experiences-study" target="_blank" rel="noopener">Learn about participating</a></p>
+    </div>
+  </div>
+
+  <div class="themes" aria-label="Research areas">
+    <a href="#research"><h3>Pregnancy &amp; postpartum biology</h3><p>Maternal immunity, lactation, and fetal and maternal cells that persist for decades after pregnancy.</p></a>
+    <a href="#research"><h3>Pregnancy experiences</h3><p>How pregnant and postpartum people are heard, or dismissed, in prenatal and postpartum care.</p></a>
+    <a href="#research"><h3>Female health across the tree of life</h3><p>Placentation, gestation, and reproductive pace across mammals.</p></a>
+    <a href="#research"><h3>Cancer across species</h3><p>Comparative oncology, from Peto's paradox to cancer as a cost of reproduction.</p></a>
+  </div>
+
+  <div class="facts">
+    <span><strong>Principal Investigator:</strong> Amy M. Boddy, PhD</span>
+    <span><strong>Affiliated with:</strong> <a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a>, <a href="https://cancer-insights.asu.edu/" target="_blank" rel="noopener">Arizona Cancer &amp; Evolution Center</a>, <a href="http://www.broomcenter.ucsb.edu/" target="_blank" rel="noopener">Broom Center for Demography</a>, <a href="https://longevity.ucsb.edu/" target="_blank" rel="noopener">Center for Aging and Longevity</a></span>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="page" id="page-research" aria-labelledby="h-research">
+  <div class="page-head">
+    <h1 id="h-research">Research</h1>
+    <p class="lede">Our research focuses broadly on evolutionary applications to human health and disease. Our work is motivated by fundamental questions in life history theory. We use a combination of genomics, comparative biology and evolutionary theory to help understand trade-offs between survival and reproduction across different levels of biological organization, from molecules to organisms and everything in between.</p>
+  </div>
+  <div class="stack">
+    <article class="theme">
+      <div class="tag">In humans</div>
+      <div>
+        <h2>Pregnancy and postpartum biology: immunology, microchimerism, and lactation</h2>
+        <p>Matrescence, the transition to motherhood, reshapes a person's physiology during pregnancy and long after birth. During pregnancy, cells cross the placenta in both directions. Some fetal cells stay in the mother's body for decades, and maternal cells stay in the child. We ask how these cells, and the immune tolerance that lets them persist, affect maternal and child health, including as a pathway in the developmental origins of health and disease. Our Immune Regulation and Maternal-Fetal Health Study examines how the maternal immune system and fetal cells interact during pregnancy.</p>
+        <p>After birth, we study how lactation practices and reproductive state change maternal inflammation and immune function. Breastfeeding evolved as a two-way exchange between mother and infant, yet most research measures its benefits for the infant alone.</p>
+        <p class="papers">Selected: Boddy &amp; Chua 2026, <i>Human Biology</i>; Chua et al. 2025, <i>Advanced Science</i>; Hové et al. 2024, <i>Scientific Reports</i>; Boddy et al. 2015, <i>BioEssays</i> (<a href="https://www.youtube.com/watch?v=isIFKQPaiP0" target="_blank" rel="noopener">video abstract</a>).</p>
+      </div>
+    </article>
+    <article class="theme">
+      <div class="tag">In humans</div>
+      <div>
+        <h2>Pregnancy experiences and medical gaslighting</h2>
+        <p>Many pregnant and postpartum people report having their symptoms and concerns dismissed in clinical care. The <a href="https://momshealth.anth.ucsb.edu/research-studies/pregnancy-experiences-study" target="_blank" rel="noopener">Pregnancy Experiences Study</a> documents how people navigate prenatal and postpartum care, with the goal of identifying care practices that build trust. A related project examines how pregnant and postpartum people are engaging with AI tools to make health decisions for themselves and their families.</p>
+        <p class="papers">Funded by the Pahl Center for the Study of Critical Social Issues and the UCSB Center for AI and Society.</p>
+      </div>
+    </article>
+    <article class="theme">
+      <div class="tag">Across species</div>
+      <div>
+        <h2>Female health across the tree of life</h2>
+        <p>Female animals share biological characteristics that place them at risk for similar diseases and disorders, and comparing species can speed insight into women's health. We compare placentation, gestation, and reproductive pace across mammals. Our recent work links the degree of placental interdigitation to the pace of reproduction, and asks whether preterm birth is unique to humans.</p>
+        <p class="papers">Selected: Parmeggiani et al., in press, <i>Journal of Evolutionary Biology</i>; Natterson-Horowitz, Boddy &amp; Zimmerman 2022, <i>PNAS Nexus</i>; Abegglen et al. 2022, <i>Animals</i>.</p>
+      </div>
+    </article>
+    <article class="theme">
+      <div class="tag">Across species</div>
+      <div>
+        <h2>Cancer across species</h2>
+        <p>Cancer occurs across multicellular life, but some species are far more vulnerable than others. Through the Arizona Cancer &amp; Evolution Center, we catalogue cancer across vertebrates to find which life histories, placentas, and physiologies predict vulnerability. One thread runs through reproduction: investment in reproduction can leave fewer resources for cancer defense. We bring the same lens to human cancer, studying how microchimerism relates to cancer in women who have given birth, and how early-life adversity and reproductive history shape breast cancer risk.</p>
+        <p class="papers">Selected: Compton et al. 2025, <i>Cancer Discovery</i>; Parmeggiani et al. 2025, <i>Seminars in Immunopathology</i>; Boddy et al. 2022, <i>Evolution, Medicine, and Public Health</i>.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="page" id="page-people" aria-labelledby="h-people">
+  <div class="page-head">
+    <p class="eyebrow">People</p>
+    <h1 id="h-people">The lab</h1>
+  </div>
+  <div class="pi pi-wrap">
+    <img src="amy-boddy.jpg" alt="Portrait of Amy M. Boddy" width="640" height="962">
+    <div style="display:grid;gap:8px;min-width:0">
+    <span class="role eyebrow" style="margin:0">Principal Investigator</span>
+    <h2>Amy M. Boddy, PhD</h2>
+    <p class="muted" style="margin:0">Professor, Department of Anthropology, UC Santa Barbara</p>
+    <p>Amy is a human biologist and evolutionary theorist. She received her PhD in Molecular Biology and Genetics from Wayne State University School of Medicine and held postdoctoral positions at UC San Francisco and Arizona State University before joining UCSB in 2017. She is Co-Director of the <a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a>. She received the UCSB Distinguished Faculty Teaching Award in 2023 and is a 2026–27 Public Voices Fellow of The OpEd Project.</p>
+    </div>
+  </div>
+  <div class="people">
+    <div class="person"><span class="role">Graduate Student</span><h3>Cristiano Parmeggiani</h3><p>Cristiano is a PhD student in biological anthropology with a background in the humanities and the evolutionary sciences. He studies microchimerism, placental evolution, and cancer prevalence across mammals.</p></div>
+    <div class="person"><span class="role">Graduate Student</span><h3>Janine Rose Klein</h3><p class="muted">Bio coming soon.</p></div>
+    <div class="person"><span class="role">Graduate Student</span><h3>Lucia Rejzek</h3><p class="muted">Bio coming soon.</p></div>
+    <div class="person"><span class="role">Undergraduate Researcher</span><h3>Manya Weissfeld</h3><p class="muted">Bio coming soon.</p></div>
+  </div>
+
+  <h2 style="margin:56px 0 16px">Alumni</h2>
+  <ul class="alumni">
+    <li><span class="who">Kristine Chua, PhD<small>Now at the <a href="https://anthropology.nd.edu/people/kristine-joy-chua/" target="_blank" rel="noopener">University of Notre Dame</a></small></span> <span>Postdoctoral Scholar, 2022–2025</span></li>
+    <li><span class="who">Tiffany Pan, PhD<small>Now at the <a href="https://csde.washington.edu/staff/pan-tiffany/" target="_blank" rel="noopener">University of Washington</a></small></span> <span>Postdoctoral Scholar, 2019–2022</span></li>
+    <li>Carmen Hové, PhD <span>Graduate Student, 2018–2022</span></li>
+    <li>Maya Szafraniec, MA <span>Graduate Student, 2019–2022</span></li>
+    <li>Steve Dinnogen <span>Lab Manager, 2024–2026</span></li>
+    <li>Nikki Torno <span>Research Technician, 2022–2023</span></li>
+    <li>Sarah Mestan <span>Undergraduate Researcher, 2024–2026</span></li>
+    <li>Brynn Shapiro <span>Undergraduate Researcher, 2023–2024</span></li>
+    <li>Emilie Risha <span>Undergraduate Researcher, 2022–2024</span></li>
+    <li>Mary Boyd <span>Undergraduate Researcher, 2020–2023</span></li>
+    <li>Olivia Mendoza <span>Undergraduate Researcher, 2020–2022</span></li>
+    <li>Amy Lam <span>Undergraduate Researcher, 2022</span></li>
+    <li>Kenna Sherman <span>Undergraduate Researcher, 2018–2020</span></li>
+    <li>Sydney Collier <span>Undergraduate Researcher, 2017–2019</span></li>
+  </ul>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="page" id="page-publications" aria-labelledby="h-pubs">
+  <div class="page-head">
+    <p class="eyebrow">Publications</p>
+    <h1 id="h-pubs">Publications</h1>
+    <p class="muted">Journal articles, book chapters, and preprints. For citation counts, see <a href="https://scholar.google.com/citations?hl=en&amp;user=jnNIBc4AAAAJ&amp;view_op=list_works&amp;sortby=pubdate" target="_blank" rel="noopener">Google Scholar</a>.</p>
+  </div>
+  <div class="pub-tools">
+    <label for="pub-q" class="muted" style="font-size:.9rem">Filter</label>
+    <input id="pub-q" type="search" placeholder="Title, author, or journal" autocomplete="off">
+    <span class="count" id="pub-count" aria-live="polite"></span>
+  </div>
+  <div id="pub-list"></div>
+</section>
+
+<!-- CV -->
+<section class="page" id="page-cv" aria-labelledby="h-cv">
+  <div class="page-head">
+    <p class="eyebrow">Curriculum Vitae</p>
+    <h1 id="h-cv">Amy M. Boddy</h1>
+    <p class="lede">Human biologist and evolutionary theorist. My work applies evolutionary and ecological theory to human health, with a focus on reproduction, pregnancy, and the costs of reproduction, including cancer.</p>
+    <p><a class="cv-link" href="Boddy_CV.pdf" target="_blank" rel="noopener">Full CV (PDF, updated July 2026)</a></p>
+  </div>
+  <div class="stack">
+    <div class="cv-block">
+      <h2>Appointments</h2>
+      <ul class="rows">
+        <li><span class="when">2025–present</span><span class="what">Professor<span>Department of Anthropology, UC Santa Barbara</span></span></li>
+        <li><span class="when">2021–2025</span><span class="what">Associate Professor<span>Department of Anthropology, UC Santa Barbara</span></span></li>
+        <li><span class="when">2017–2021</span><span class="what">Assistant Professor<span>Department of Anthropology, UC Santa Barbara</span></span></li>
+        <li><span class="when">2016–2017</span><span class="what">Assistant Research Professor<span>The Biodesign Institute, Arizona State University</span></span></li>
+        <li><span class="when">2014–2016</span><span class="what">Postdoctoral Fellow<span>Arizona State University</span></span></li>
+        <li><span class="when">2013–2014</span><span class="what">Postdoctoral Fellow<span>University of California, San Francisco</span></span></li>
+      </ul>
+    </div>
+    <div class="cv-block">
+      <h2>Education</h2>
+      <ul class="rows">
+        <li><span class="when">2013</span><span class="what">PhD, Molecular Biology and Genetics<span>Wayne State University School of Medicine</span></span></li>
+        <li><span class="when">2005</span><span class="what">BS, Biology<span>Wayne State University</span></span></li>
+      </ul>
+    </div>
+    <div class="cv-block">
+      <h2>Affiliations</h2>
+      <ul class="rows">
+        <li><span class="when">2021–present</span><span class="what"><a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a><span>Co-Director</span></span></li>
+        <li><span class="when">2022–present</span><span class="what">Center for Aging and Longevity<span>UC Santa Barbara</span></span></li>
+        <li><span class="when">2018–present</span><span class="what">Broom Center for Demography<span>UC Santa Barbara</span></span></li>
+        <li><span class="when">2020–present</span><span class="what">Board Member<span>Exotic Species Cancer Research Alliance</span></span></li>
+        <li><span class="when">2018–present</span><span class="what">Board Member<span>International Society for Evolution, Ecology, and Cancer</span></span></li>
+        <li><span class="when">2018–present</span><span class="what">Arizona Cancer &amp; Evolution (ACE) Center<span>Co-leader, Project 1, 2018–2023</span></span></li>
+        <li><span class="when">2015–2017</span><span class="what">Center for Evolution and Medicine<span>Arizona State University</span></span></li>
+        <li><span class="when">2013–2015</span><span class="what">Center for Evolution and Cancer<span>University of California, San Francisco</span></span></li>
+      </ul>
+    </div>
+    <div class="cv-block">
+      <h2>Selected honors</h2>
+      <ul class="rows">
+        <li><span class="when">2026–27</span><span class="what">Public Voices Fellow<span>The OpEd Project and UC Santa Barbara</span></span></li>
+        <li><span class="when">2024–26</span><span class="what">Pahl Scholar<span>The Pahl Center for the Study of Critical Social Issues</span></span></li>
+        <li><span class="when">2023</span><span class="what">UCSB Distinguished Faculty Teaching Award</span></li>
+        <li><span class="when">2020</span><span class="what">UCSB Faculty Career Development Award</span></li>
+        <li><span class="when">2020</span><span class="what">UCSB Nominee, Packard Fellowship</span></li>
+        <li><span class="when">2018</span><span class="what">UCSB Nominee, Pew Biomedical Scholars</span></li>
+        <li><span class="when">2015, 2016</span><span class="what">Postdoctoral Award Finalist<span>Human Behavior &amp; Evolution Society</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA -->
+<section class="page" id="page-media" aria-labelledby="h-media">
+  <div class="page-head">
+    <p class="eyebrow">Media</p>
+    <h1 id="h-media">Media</h1>
+  </div>
+
+  <h2 style="margin:0 0 8px">Our research in the news</h2>
+  <ul class="press">
+    <li><span class="outlet">Noozhawk · April 2026</span><a href="https://www.noozhawk.com/santa-barbara-symposium-spotlights-lack-of-research-on-womens-health/" target="_blank" rel="noopener">Santa Barbara symposium spotlights lack of research on women's health</a><span class="by">Rebecca Caraway</span></li>
+    <li><span class="outlet">The UCSB Current · October 2024</span><a href="https://news.ucsb.edu/2024/021657/researchers-complete-largest-compilation-cancer-prevalence-across-vertebrates" target="_blank" rel="noopener">Researchers complete the largest compilation of cancer prevalence across vertebrates</a><span class="by">Sonia Fernandez</span></li>
+    <li><span class="outlet">The UCSB Current · May 2024</span><a href="https://news.ucsb.edu/2024/021464/researchers-find-new-mothers-immune-status-varies-her-feeding-strategy" target="_blank" rel="noopener">Researchers find that a new mother's immune status varies with her feeding strategy</a><span class="by">Sonia Fernandez</span></li>
+    <li><span class="outlet">The UCSB Current · April 2024</span><a href="https://news.ucsb.edu/in-focus/student-led-art-show-explores-perspectives-reproductive-biology" target="_blank" rel="noopener">Student-led art show explores perspectives on reproductive biology</a><span class="by">Sonia Fernandez</span></li>
+    <li><span class="outlet">The UCSB Current · 2022</span><a href="https://www.news.ucsb.edu/2022/020637/planetary-sisterhood" target="_blank" rel="noopener">A planetary sisterhood</a><span class="by">Jim Logan</span></li>
+    <li><span class="outlet">The UCSB Current · 2022</span><a href="https://www.news.ucsb.edu/2022/020596/multitudes-within-us" target="_blank" rel="noopener">The multitudes within us</a><span class="by">Jim Logan</span></li>
+    <li><span class="outlet">Daily Nexus · 2020</span><a href="https://dailynexus.com/2020-03-26/ucsb-researcher-investigates-strategies-for-reducing-metastatic-potential-of-cancer-cell-clusters/" target="_blank" rel="noopener">UCSB researcher investigates strategies for reducing metastatic potential of cancer cell clusters</a><span class="by">Jacqueline Wen</span></li>
+    <li><span class="outlet">NPR Morning Edition · 2015</span><a href="http://www.npr.org/sections/health-shots/2015/10/26/449966350/fetal-cells-may-protect-mom-from-disease-long-after-the-babys-born" target="_blank" rel="noopener">Fetal cells may protect mom from disease long after the baby's born</a></li>
+    <li><span class="outlet">The New York Times · 2015</span><a href="https://www.nytimes.com/2015/09/15/science/a-pregnancy-souvenir-cells-that-are-not-your-own.html" target="_blank" rel="noopener">A pregnancy souvenir: cells that are not your own</a><span class="by">Carl Zimmer</span></li>
+    <li><span class="outlet">National Geographic · 2015</span><a href="http://phenomena.nationalgeographic.com/2015/09/07/foetal-cells-hide-out-in-mums-body-but-what-do-they-do/" target="_blank" rel="noopener">Foetal cells hide out in mum's body, but what do they do?</a><span class="by">Ed Yong</span></li>
+    <li><span class="outlet">Smithsonian · 2015</span><a href="http://www.smithsonianmag.com/science-nature/babys-cells-can-manipulate-moms-body-decades-180956493/" target="_blank" rel="noopener">Baby's cells can manipulate mom's body for decades</a><span class="by">Viviane Callier</span></li>
+    <li><span class="outlet">The New York Times · 2015</span><a href="https://www.nytimes.com/2015/07/28/science/cellular-cheaters-give-rise-to-cancer.html" target="_blank" rel="noopener">Cellular 'cheaters' give rise to cancer</a><span class="by">George Johnson</span></li>
+  </ul>
+
+  <h2 style="margin:56px 0 8px">Expert commentary</h2>
+  <ul class="press">
+    <li><span class="outlet">Live Science · July 2026</span><a href="https://www.livescience.com/health/genetics/cells-from-your-mother-likely-infiltrated-your-brain-in-the-womb-and-they-could-survive-for-decades-study-reveals" target="_blank" rel="noopener">Cells from your mother likely infiltrated your brain in the womb, and they could survive for decades, study reveals</a><span class="by">Clarissa Brincat</span></li>
+    <li><span class="outlet">Axios · May 2025</span><a href="https://www.axios.com/2025/05/09/pregnancy-mothers-dna-science-postpartum-connection" target="_blank" rel="noopener">The science behind the mom-baby bond</a><span class="by">Carly Mallenbaum</span></li>
+    <li><span class="outlet">The Scientist · 2024</span><a href="https://www.the-scientist.com/a-stranger-to-oneself-the-mystery-of-fetal-microchimerism-72022" target="_blank" rel="noopener">A stranger to oneself: the mystery of fetal microchimerism</a><span class="by">Hannah Thomasy</span></li>
+    <li><span class="outlet">The Atlantic · January 2024</span><a href="https://www.theatlantic.com/science/archive/2024/01/fetal-maternal-cells-microchimerism/676996/" target="_blank" rel="noopener">The most mysterious cells in our bodies don't belong to us</a><span class="by">Katherine J. Wu</span></li>
+    <li><span class="outlet">The Atlantic · October 2023</span><a href="https://www.theatlantic.com/health/archive/2023/10/preeclampsia-pregnancy-semen/675658/" target="_blank" rel="noopener">An awkward evolutionary theory for one of pregnancy's biggest complications</a><span class="by">Katherine J. Wu</span></li>
+    <li><span class="outlet">The Atlantic · October 2022</span><a href="https://www.theatlantic.com/science/archive/2022/10/human-animal-baby-gestation-birth-timing/671734/" target="_blank" rel="noopener">Pregnancy is a war; birth is a cease-fire</a><span class="by">Katherine J. Wu</span></li>
+    <li><span class="outlet">Aeon</span><a href="https://aeon.co/essays/microchimerism-how-pregnancy-changes-the-mothers-very-dna" target="_blank" rel="noopener">We are multitudes</a><span class="by">Katherine Rowland</span></li>
+  </ul>
+
+  <h2 style="margin:56px 0 8px">Podcasts, talks, and video</h2>
+  <ul class="press">
+    <li><span class="outlet">Sausage of Science · July 2026</span><a href="https://podcasts.apple.com/us/podcast/sos-284-dr-amy-boddy-explains-microchimerism-how-much/id1340030371?i=1000774930167" target="_blank" rel="noopener">Dr. Amy Boddy explains microchimerism: how much of you is actually you?</a><span class="by">Podcast interview</span></li>
+    <li><span class="outlet">Arizona Cancer Evolution Center</span><a href="https://www.youtube.com/watch?v=Za-8pNe_pEw" target="_blank" rel="noopener">Discover how evolution shapes cancer across species</a><span class="by">Video</span></li>
+    <li><span class="outlet">That Anthro Podcast</span><a href="https://podcasts.apple.com/us/podcast/evolutionary-approaches-to-human-health-with-dr-amy-boddy/id1518833495?i=1000562301007" target="_blank" rel="noopener">Evolutionary approaches to human health</a><span class="by">Podcast interview</span></li>
+    <li><span class="outlet">Zombified Podcast</span><a href="https://zombified.fireside.fm/microchimericmombie" target="_blank" rel="noopener">Microchimeric mombie</a><span class="by">Podcast interview</span></li>
+    <li><span class="outlet">UCLA Center for Behavior, Evolution &amp; Culture</span><a href="https://www.youtube.com/watch?v=jZxUVKitfn4" target="_blank" rel="noopener">Life history trade-offs in reproduction and cancer</a></li>
+    <li><span class="outlet">ASU Cooperation &amp; Conflict Symposium</span><a href="https://vimeo.com/205621592" target="_blank" rel="noopener">Cooperation and conflict in maternal health</a></li>
+    <li><span class="outlet">BioEssays video abstract</span><a href="https://www.youtube.com/watch?v=isIFKQPaiP0" target="_blank" rel="noopener">Cooperation and conflict beyond the womb</a></li>
+  </ul>
+</section>
+
+<!-- NEWS -->
+<section class="page" id="page-news" aria-labelledby="h-news">
+  <div class="page-head">
+    <p class="eyebrow">News</p>
+    <h1 id="h-news">Lab news</h1>
+  </div>
+  <ol class="news">
+    <li>
+      <time datetime="2026-10-22">October 22, 2026</time>
+      <div>
+        <span class="kind">Upcoming talk</span>
+        <h2>Rebuilding trust in pregnancy and postpartum care</h2>
+        <p>Amy will present the 2026 Pahl Symposium, hosted by the Pahl Center for the Study of Critical Social Issues at UC Santa Barbara. The talk draws on her research with Kristine Chua (University of Notre Dame) on trust, communication, and medical gaslighting in pregnancy and postpartum care. It examines how time pressures, institutional constraints, and gender dynamics shape patient–provider relationships, and asks what it takes to build more equitable, trusting care during and after pregnancy.</p>
+        <p class="cite">Thursday, October 22, 3:00–4:30 pm, Betty Elings Wells Pavilion, The Club &amp; Guest House, UC Santa Barbara, with a Zoom option. Reception to follow.</p>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-10">October 2026</time>
+      <div>
+        <span class="kind">New paper</span>
+        <h2>Maternal microchimerism as a mechanism of the developmental origins of health and disease</h2>
+        <p>Maternal cells cross to the fetus during pregnancy and can persist well into adulthood, yet they have received little attention in research on how the prenatal environment shapes lifelong health. In a new perspective in <i>Human Biology</i>, Amy and Kristine Chua argue that maternal microchimerism should be recognized alongside epigenetics, hormonal signaling, and nutritional transfer as a core mechanism through which the early environment shapes offspring biology across the life course.</p>
+        <p class="cite">Boddy AM, Chua KJ. Maternal Microchimerism as a Mechanism of the Developmental Origins of Health and Disease. <i>Human Biology</i> 96(3), in press.</p>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-10">October 2026</time>
+      <div>
+        <span class="kind">New paper</span>
+        <h2>Placental interdigitation is associated with reproductive pace across mammals</h2>
+        <p>The placenta is the most diverse mammalian organ. Here we compare placenta morphology across mammals to understand the link between reproductive investment and timing. The paper has been accepted in the <i>Journal of Evolutionary Biology</i>. Congratulations to graduate student Cristiano Parmeggiani, who led the work, and to lab alumni Mary Boyd and Tiffany Pan.</p>
+        <p class="cite">Parmeggiani C, Boyd M, Pan T, Boddy AM. Placental Interdigitation Is Associated with Reproductive Pace across Mammals. <i>Journal of Evolutionary Biology</i>, in press.</p>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-07-01">July 2026</time>
+      <div>
+        <span class="kind">Podcast</span>
+        <h2>How much of you is actually you?</h2>
+        <p>Amy joined the <i>Sausage of Science</i> podcast to explain microchimerism: the cells that pass between mother and fetus during pregnancy and can persist in each other's bodies for decades.</p>
+        <p><a href="https://podcasts.apple.com/us/podcast/sos-284-dr-amy-boddy-explains-microchimerism-how-much/id1340030371?i=1000774930167" target="_blank" rel="noopener">Listen to episode 284 on Apple Podcasts</a></p>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-05-27">May 2026</time>
+      <div>
+        <span class="kind">Conference</span>
+        <h2>The first International Conference on Microchimerism</h2>
+        <p>Researchers studying microchimerism gathered at the Medical University of Graz, Austria, on May 27–28 for the first international conference dedicated to the field. Amy served as co-organizer and on the scientific program committee. The conference was organized on behalf of the Microchimerism Consortium and followed a public symposium on microchimerism on May 26.</p>
+        <p><a href="https://www.microchimerism.info/front-page/international-conference-on-microchimerism-2026/" target="_blank" rel="noopener">About the conference</a></p>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-04-06">April 2026</time>
+      <div>
+        <span class="kind">Art + science</span>
+        <h2><i>The Silent Unknown</i>: reproductive biology through art</h2>
+        <p>Student artists explored reproductive biology in <i>The Silent Unknown</i>, a two-week exhibition at the Glassbox Gallery at UC Santa Barbara, April 6–17, with an opening reception on April 8. Amy served as faculty advisor for the program and mentored one of the student artists. Congratulations to the artists: Lily Hartwick, Emily Kugelmann, Hope Christofferson, Jasmine Ispasoiu, Yaeli Dukler, Sahana Jaligam, Karissa Gomez, and Nicole Tran.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><h4>Boddy Lab</h4><p>Department of Anthropology<br>University of California, Santa Barbara<br>Santa Barbara, CA 93106</p></div>
+    <div><h4>Contact</h4><p><span class="email">amyboddy@ucsb.edu</span></p></div>
+    <div><h4>Affiliations</h4><p><a href="https://momshealth.anth.ucsb.edu/" target="_blank" rel="noopener">Maternal health studies</a><br><a href="https://www.microchimerism.info/" target="_blank" rel="noopener">Microchimerism, Human Health &amp; Evolution Project</a><br><a href="https://cancer-insights.asu.edu/" target="_blank" rel="noopener">Arizona Cancer &amp; Evolution Center</a><br><a href="http://www.broomcenter.ucsb.edu/" target="_blank" rel="noopener">Broom Center for Demography</a><br><a href="https://longevity.ucsb.edu/" target="_blank" rel="noopener">Center for Aging and Longevity</a><br><a href="https://www.anth.ucsb.edu/" target="_blank" rel="noopener">UCSB Anthropology</a></p></div>
+  </div>
+</footer>
+
+<script>
+// Source: Google Scholar profile jnNIBc4AAAAJ, pulled 2026-10-15. Conference abstracts, duplicates, dataset records,
+// and preprints later published as articles were removed. "..." in Scholar author lists is shown as "et al."
+const PUBS=[
+["Placental Interdigitation Is Associated with Reproductive Pace across Mammals","C Parmeggiani, M Boyd, T Pan, AM Boddy","Journal of Evolutionary Biology","In press",""],
+["Female reproductive status and ecological conditions impact the magnitude of sex differences in human immune status across the lifespan","C Hove, MD Gurven, BC Trumble, J Stieglitz, DE Rodriguez, IM Suarez, ...","Research Square","2026","BJrgspguQaEC","Preprint"],
+["Divergent understandings in comparative oncology","ZT Compton, AM Boddy, LM Abegglen, D Chávez, JD Schiffman, M Tollis, ...","Proceedings of the National Academy of Sciences 123 (6), e2532925123","2026","mel-f30kHHgC"],
+["Testing Nature’s Defenses: Inducing Cancer in the Naked Mole Rat","AM Boddy, LM Abegglen","Cancer Discovery 16 (1), 7-9","2026","G1UMdFYMoxkC"],
+["Maternal Microchimerism as a Mechanism of the Developmental Origins of Health and Disease","AM Boddy, KJ Chua","Human Biology 96 (3)","2026","hGdtkIFZdKAC","In press"],
+["Immune-cancer analyses across mammals reveal a potential trophic level and platelet-linked tradeoff between cancer and trauma mortality","SE Kapsetaki, S Seyedi, ZT Compton, SM Rupp, EG Duke, JD Schiffman, ...","bioRxiv","2025","hvmnpdAuIbkC","Preprint"],
+["Identifying key questions and challenges in microchimerism biology","KJ Chua, RC Quilang, K Sallinger, CA Aktipis, P Arck, DW Bianchi, ...","Advanced Science 12 (48), e14969","2025","8dzOF9BpDQoC"],
+["The duality of microchimerism and cancer in parous women: a review and evolutionary perspective","C Parmeggiani, K Sallinger, H James Cleaves, AM Boddy","Seminars in Immunopathology 47 (1), 15","2025","CNPyR2KL9-0C"],
+["Immunological surveillance against cancer across mammals","O Vincze, P Minias, A Corthay, F Colchero, JF Lemaître, L Maille, ...","Nature Communications 16 (1), 10333","2025","RuPIJ_LgqDgC"],
+["Multicellular cooperation and the hallmarks of cancer: A new foundation","CC Maley, AM Boddy, AM Nedelcu, A Aktipis","Evolution, Medicine, and Public Health, eoaf026","2025","Zh0EY9V9P6UC"],
+["Paradoxical indeed","ZT Compton, O Vincze, W Mellon, M Tollis, L Abegglen, JD Schiffman, ...","Proceedings of the National Academy of Sciences 122 (19), e2504512122","2025","s9ia6_kGH2AC"],
+["The relationship between diet, plasma glucose, and cancer prevalence across vertebrates","SE Kapsetaki, AJ Basile, ZT Compton, SM Rupp, EG Duke, AM Boddy, ...","Nature Communications 16 (1), 2271","2025","tHtfpZlB6tUC"],
+["Cancer prevalence across vertebrates","ZT Compton, W Mellon, VK Harris, S Rupp, D Mallo, SE Kapsetaki, ...","Cancer Discovery 15 (1), 227-244","2025","AYInfyleIOsC"],
+["Beyond Peto’s paradox: expanding the study of cancer resistance across species","AM Dujon, AM Boddy, R Hamede, B Ujvari, F Thomas","Evolution 79 (1), 6-10","2025","zwpXiJ37cpgC"],
+["Clinical implications of the paradox of the organism","AM Boddy, JA Ågren","In: The Paradox of the Organism: Adaptation and Internal Conflict (JA Ågren, MM Patten, eds.), Harvard University Press","2025","https://www.amazon.com/dp/B0FF6PLNB1","Chapter"],
+["Resistance management for cancer: lessons from farmers","S Seyedi, VK Harris, SE Kapsetaki, S Narayanan, D Saha, Z Compton, ...","Cancer Research 84 (22), 3715-3727","2024","C33y2ycGS3YC"],
+["Approaches and methods to study wildlife cancer","M Giraudeau, O Vincze, SM Dupont, T Sepp, C Baines, JF Lemaitre, ...","Journal of Animal Ecology 93 (10), 1410-1428","2024","-yGd096yOn8C"],
+["Evaluation of neoplasia, treatments, and survival in lizard species","F Willig, FJ Torpy, SH Harrison, EG Duke, B Troan, AM Boddy, ...","Animals 14 (10), 1395","2024","c1e4I3QdEKYC"],
+["Variation in maternal lactation practices associated with changes in diurnal maternal inflammation","C Hove, KJ Chua, MA Martin, M Hubble, AM Boddy","Scientific Reports 14 (1), 4376","2024","A8cqit5AE6sC"],
+["Retrospective study of the prevalence, histopathology, therapy, and survival time of neoplastic disease in fish","E Ferraro, SH Harrison, E Duke, B Troan, A Boddy, LM Abegglen, ...","Animals 14 (3), 464","2024","MIg0yeAD4ggC"],
+["Life history traits and cancer prevalence in birds","SE Kapsetaki, ZT Compton, J Dolan, VK Harris, W Mellon, SM Rupp, ...","Evolution, Medicine, and Public Health 12 (1), 105-116","2024","NMlhSUseqAsC"],
+["Sperm intrusion into the implantation-stage blastocyst and its potential biological significance","J Sengupta, T Kroneis, AM Boddy, R Roy, A Sarkar, D Sarkar, D Ghosh, ...","Evolution, Medicine, and Public Health 12 (1), 1-6","2024","-6RzNnnwWf8C"],
+["Germline mutation rate predicts cancer mortality across 37 vertebrate species","SE Kapsetaki, ZT Compton, W Mellon, O Vincze, M Giraudeau, ...","Evolution, Medicine, and Public Health 12 (1), 122-128","2024","D_tqNUsBuKoC"],
+["The need for evolutionary theory in cancer research","AM Boddy","European Journal of Epidemiology 38 (12), 1259-1264","2023","RJOyoaXV5v8C"],
+["We All Are Multitudes: Microchimerism, Evolution and Health","T Kroneis, H Cleaves, M Eikmans, F Schildberg, A Boddy","Journal of Reproductive Immunology 159, 104010","2023","SAZ1SQo2q1kC"],
+["Is chimerism associated with cancer across the tree of life?","SE Kapsetaki, A Fortunato, Z Compton, SM Rupp, Z Nour, S Riggs-Davis, ...","PLoS One 18 (6), e0287901","2023","eAlLMO4JVmQC"],
+["Bridging clinic and wildlife care with AI-powered pan-species computational pathology","K AbdulJabbar, SP Castillo, K Hughes, H Davidson, AM Boddy, ...","Nature Communications 14 (1), 2408","2023","qE4H1tSSYIIC"],
+["The ecology of cancer prevalence across species: Cancer prevalence is highest in desert species and high trophic levels","SE Kapsetaki, Z Compton, SM Rupp, MM Garner, EG Duke, AM Boddy, ...","bioRxiv","2022","0aBXIfxlw9sC","Preprint"],
+["Of elephants and other mammals: a comparative review of reproductive tumors and potential impact on conservation","LM Abegglen, TM Harrison, A Moresco, JS Fowles, BV Troan, WK Kiso, ...","Animals 12 (15), 2005","2022","1tZ8xJnm2c8C"],
+["Connecting palaeopathology and evolutionary medicine to cancer research: past and present","C Marques, Z Compton, AM Boddy","Palaeopathology and Evolutionary Medicine: An Integrated Approach, 239-260","2022","ghEM2AJqZyQC","Chapter"],
+["Cancer susceptibility as a cost of reproduction and contributor to life history evolution","AM Dujon, J Boutry, S Tissot, JF Lemaître, AM Boddy, AL Gérard, ...","Frontiers in Ecology and Evolution 10, 861103","2022","kJDgFkosVoMC"],
+["Female Health Across the Tree of Life: Insights at the Intersection of Women's Health, One Health and Planetary Health","B Natterson-Horowitz, AM Boddy, D Zimmerman","PNAS Nexus 1 (2), pgac044","2022","wE-fMHVdjMkC"],
+["Cancer risk across mammals","O Vincze, F Colchero, JF Lemaître, DA Conde, S Pavard, M Bieuville, ...","Nature 601 (7892), 263-267","2022","27LrP4qxOz0C"],
+["Early life adversity, reproductive history and breast cancer risk","AM Boddy, S Rupp, Z Yu, H Hanson, A Aktipis, K Smith","Evolution, Medicine, and Public Health 10 (1), 429-438","2022","eGYfIraVYiQC"],
+["Elephant genomes reveal accelerated evolution in mechanisms underlying disease defenses","M Tollis, E Ferris, MS Campbell, VK Harris, SM Rupp, TM Harrison, ...","Molecular Biology and Evolution 38 (9), 3606-3620","2021","g5Ck-dwhA_QC"],
+["Identifying key questions in the ecology and evolution of cancer","AM Dujon, A Aktipis, C Alix-Panabières, SR Amend, AM Boddy, JS Brown, ...","Evolutionary Applications 14 (4), 877-892","2021","8Xgff_V0N9gC"],
+["Postpartum depression and mother–offspring conflict over maternal investment","A Gunst, M Sundén, R Korja, AM Boddy, J Kotler, EJ Paavonen, ...","Evolution, Medicine, and Public Health 9 (1), 11-23","2021","sA9dB-pw3HoC"],
+["Comparative oncology: New insights into an ancient disease","AM Boddy, TM Harrison, LM Abegglen","iScience 23 (8)","2020","CYCckWUYoCcC"],
+["Agent-based modelling reveals strategies to reduce the fitness and metastatic potential of circulating tumour cell clusters","M Campenni, AN May, A Boddy, V Harris, AM Nedelcu","Evolutionary Applications 13 (7), 1635-1650","2020","QsaTk4IG4EwC"],
+["Molecular biology and evolution of cancer: from discovery to action","JA Somarelli, H Gardner, VL Cannataro, EF Gunady, AM Boddy, ...","Molecular Biology and Evolution 37 (2), 320-326","2020","k_7cPK9k7w8C"],
+["Does placental invasiveness lead to higher rates of malignant transformation in mammals? Response to: ‘Available data suggests positive relationship between placental invasion and malignancy’","AM Boddy, LM Abegglen, A Aktipis, JD Schiffman, CC Maley, C Witte","Evolution, Medicine, and Public Health 2020 (1), 215-216","2020","DyXnQzXoVgIC"],
+["Lifetime cancer prevalence and life history traits in mammals","AM Boddy, LM Abegglen, AP Pessier, A Aktipis, JD Schiffman, CC Maley, ...","Evolution, Medicine, and Public Health 2020 (1), 187-195","2020","silx2ntsSuwC"],
+["Improving cancer drug discovery by studying cancer across the tree of life","JA Somarelli, AM Boddy, HL Gardner, SB DeWitt, J Tuohy, K Megquier, ...","Molecular Biology and Evolution 37 (1), 11-17","2020","LXmCCkuhhTsC"],
+["Life history trade-offs in tumors","AM Boddy, W Huang, A Aktipis","Current Pathobiology Reports 6 (4), 201-207","2018","Hck25ST_3aIC"],
+["Understanding cooperation through fitness interdependence","A Aktipis, L Cronk, J Alcock, JD Ayers, C Baciu, D Balliet, AM Boddy, ...","Nature Human Behaviour 2 (7), 429-431","2018","65Yg0jNCQDAC"],
+["Classifying the evolutionary and ecological features of neoplasms","CC Maley, A Aktipis, TA Graham, A Sottoriva, AM Boddy, M Janiszewska, ...","Nature Reviews Cancer 17 (10), 605-619","2017","PkcyUWeTMh0C"],
+["Peto’s Paradox: how has evolution solved the problem of cancer prevention?","M Tollis, AM Boddy, CC Maley","BMC Biology 15 (1), 60","2017","wvYxNZNCP7wC"],
+["Evidence of a conserved molecular response to selection for increased brain size in primates","AM Boddy, PW Harrison, SH Montgomery, JA Caravas, MA Raghanti, ...","Genome Biology and Evolution 9 (3), 700-713","2017","HJSXoJQnj-YC"],
+["Evolution of cancer suppression as revealed by mammalian comparative genomics","M Tollis, JD Schiffman, AM Boddy","Current Opinion in Genetics & Development 42, 40-47","2017","TlpoogIpr_IC"],
+["Natural selection in cancer biology: from molecular snowflakes to trait hallmarks","A Fortunato, A Boddy, D Mallo, A Aktipis, CC Maley, JW Pepper","Cold Spring Harbor Perspectives in Medicine 7 (2), a029652","2017","QUX0mv85b1cC"],
+["Evolution of cancer defense mechanisms across species","VK Harris, JD Schiffman, AM Boddy","Ecology and Evolution of Cancer, 99-110","2017","JTqpx9DYBaYC","Chapter"],
+["Contextual organismality: Beyond pattern to process in the emergence of organisms","SL Díaz-Muñoz, AM Boddy, G Dantas, CM Waters, JL Bronstein","Evolution 70 (12), 2669-2677","2016","69ZgNCALVd0C"],
+["When (distant) relatives stay too long: implications for cancer medicine","D Chowell, AM Boddy, D Mallo, M Tollis, CC Maley","Genome Biology 17 (1), 34","2016","eO3_k5sD8BwC"],
+["Is estrogen receptor negative breast cancer risk associated with a fast life history strategy?","BH Hidaka, AM Boddy","Evolution, Medicine, and Public Health 2016 (1), 17-20","2016","SGW5VrABaM0C"],
+["Fetal microchimerism and maternal health: a review and evolutionary analysis of cooperation and conflict beyond the womb","AM Boddy, A Fortunato, M Wilson Sayres, A Aktipis","BioEssays 37 (10), 1106-1118","2015","An6A6Jpfc1oC","","https://www.youtube.com/watch?v=isIFKQPaiP0"],
+["Cancer across the tree of life: cooperation and cheating in multicellularity","C Aktipis, AM Boddy, G Jansen, U Hibner, ME Hochberg, CC Maley, ...","Philosophical Transactions of the Royal Society B 370 (1673), 20140219","2015","EPG8bYD4jVwC"],
+["Cancer susceptibility and reproductive trade-offs: a model of the evolution of cancer defences","AM Boddy, H Kokko, F Breden, GS Wilkinson, C Aktipis","Philosophical Transactions of the Royal Society B 370 (1673), 20140220","2015","BrOSOlqYqPUC"],
+["Life history trade-offs in cancer evolution","CA Aktipis, AM Boddy, RA Gatenby, JS Brown, CC Maley","Nature Reviews Cancer 13 (12), 883-892","2013","kzcSZmkxUKAC"],
+["Characterization of human cortical gene expression in relation to glucose utilization","KN Sterner, MR McGowen, HT Chugani, AL Tarca, CC Sherwood, PR Hof, ...","American Journal of Human Biology 25 (3), 418-430","2013","Y0pCki6q_DkC"],
+["Insight into human brain evolution through phylogenetic analysis and comparative genomics","AM Boddy","PhD dissertation, Wayne State University","2013","_FxGoFyzp5QC","Dissertation"],
+["Dynamic gene expression in the human cerebral cortex distinguishes children from adults","KN Sterner, A Weckle, HT Chugani, AL Tarca, CC Sherwood, PR Hof, ...","PLoS One 7 (5), e37714","2012","zYLM7Y9cAGgC"],
+["Comparative analysis of encephalization in mammals reveals relaxed constraints on anthropoid primate and cetacean brain scaling","AM Boddy, MR McGowen, CC Sherwood, LI Grossman, M Goodman, ...","Journal of Evolutionary Biology 25 (5), 981-994","2012","UeHWp8X0CEIC"],
+["Role of complement cascade in abdominal aortic aneurysms","I Hinterseher, R Erdman, LA Donoso, TR Vrabec, CM Schworer, JH Lillvis, ...","Arteriosclerosis, Thrombosis, and Vascular Biology 31 (7), 1653-1660","2011","9yKSN-GCB0IC"],
+["Inhibitory interneurons of the human prefrontal cortex display conserved evolution of the phenotype and related genes","CC Sherwood, MA Raghanti, CD Stimpson, MA Spocter, M Uddin, ...","Proceedings of the Royal Society B 277 (1684), 1011-1020","2010","qjMakFHDy7sC"],
+["Abdominal aortic aneurysms: a complex genetic disease","J Nischan, GM Lenk, AM Boddy, JH Lillvis, G Tromp, H Kuivaniemi","Aneurysms: Types, Risks, Formation and Treatment, 35-93","2010","Tyk-4Ss8FVUC","Chapter"],
+["Identification of a genetic variant associated with abdominal aortic aneurysms on chromosome 3p12.3 by genome wide association","JR Elmore, MA Obmann, H Kuivaniemi, G Tromp, GS Gerhard, DP Franklin, AM Boddy, DJ Carey","Journal of Vascular Surgery 49 (6), 1525-1531","2009","u5HHmVD_uO8C"],
+["Basic research studies to understand aneurysm disease","AM Boddy, GM Lenk, JH Lillvis, J Nischan, Y Kyo, H Kuivaniemi","Drug News & Perspectives 21 (3), 142-148","2008","u-x6o8ySG0sC"],
+["Abdominal aortic aneurysms are deep, deadly and genetic","H Kuivaniemi, AM Boddy, JH Lillvis, J Nischan, GM Lenk, G Tromp","Aortic Aneurysms: New Insights into an Old Problem, 299-323","2008","d1gkVwhDpl0C","Chapter"]
+];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtAuthors=a=>esc(a.replace(/,\s*\.\.\.$/," et al.")).replace(/\b(AM Boddy|A Boddy)\b/g,"<b>$1</b>");
+const listEl=document.getElementById("pub-list"), countEl=document.getElementById("pub-count"), q=document.getElementById("pub-q");
+function renderPubs(){
+  const term=q.value.trim().toLowerCase();
+  const rows=PUBS.filter(p=>!term||(p[0]+" "+p[1]+" "+p[2]).toLowerCase().includes(term));
+  const years=[...new Set(rows.map(p=>p[3]))];
+  listEl.innerHTML=years.map(y=>`<div class="year"><h3>${y}</h3><ol>${rows.filter(p=>p[3]===y).map(p=>`<li class="pub">${p[4]?`<a class="t" href="${p[4].startsWith('http')?p[4]:'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=jnNIBc4AAAAJ&citation_for_view=jnNIBc4AAAAJ:'+encodeURIComponent(p[4])}" target="_blank" rel="noopener">${esc(p[0])}</a>`:`<span class="t">${esc(p[0])}</span>`}<div class="a">${fmtAuthors(p[1])}</div><div class="v">${esc(p[2])}${p[5]?`<span class="badge">${p[5]}</span>`:""}${p[6]?` · <a href="${p[6]}" target="_blank" rel="noopener" style="font-style:normal">Video abstract</a>`:""}</div></li>`).join("")}</ol></div>`).join("") || '<p class="muted">No publications match that filter.</p>';
+  countEl.textContent=rows.length===PUBS.length?`${PUBS.length} items`:`${rows.length} of ${PUBS.length}`;
+}
+q.addEventListener("input",renderPubs); renderPubs();
+
+const PAGES=["home","research","people","publications","cv","media","news"];
+function route(){
+  const id=PAGES.includes(location.hash.slice(1))?location.hash.slice(1):"home";
+  document.querySelectorAll("section.page").forEach(s=>s.classList.toggle("on",s.id==="page-"+id));
+  document.querySelectorAll("nav a").forEach(a=>{ if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route); route();
+</script>
+
+</body>
+</html>
