@@ -76,6 +76,8 @@ p{max-width:75ch}
 .enroll{margin:24px 0 0;padding:12px 16px;background:var(--accent-soft);border-radius:3px;font-size:.95rem;max-width:none}
 .enroll strong{color:var(--accent);font-weight:600}
 .latest{margin-top:56px}
+.home-research-head{margin-top:56px}
+.home-research-head + .themes{margin-top:0}
 .latest-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
 .latest-head h2{font-size:1.3rem}
 .latest-head a{font-size:.92rem}
@@ -208,7 +210,8 @@ footer p{margin:0}
     <ol id="latest-list"></ol>
   </section>
 
-  <div class="themes" aria-label="Research areas">
+  <div class="latest-head home-research-head"><h2 id="h-home-research">Research</h2><a href="#research">More about our research</a></div>
+  <div class="themes" aria-labelledby="h-home-research">
     <a href="#research"><h3>Pregnancy &amp; postpartum biology</h3><p>Maternal immunity, lactation, and fetal and maternal cells that persist for decades after pregnancy.</p></a>
     <a href="#research"><h3>Pregnancy experiences</h3><p>How pregnant and postpartum people are heard, or dismissed, in prenatal and postpartum care.</p></a>
     <a href="#research"><h3>Female health across the tree of life</h3><p>Placentation, gestation, and reproductive pace across mammals.</p></a>
