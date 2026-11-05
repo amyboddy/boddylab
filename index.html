@@ -75,6 +75,17 @@ p{max-width:75ch}
 .themes p{margin:0;font-size:.95rem;color:var(--muted)}
 .enroll{margin:24px 0 0;padding:12px 16px;background:var(--accent-soft);border-radius:3px;font-size:.95rem;max-width:none}
 .enroll strong{color:var(--accent);font-weight:600}
+.latest{margin-top:56px}
+.latest-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.latest-head h2{font-size:1.3rem}
+.latest-head a{font-size:.92rem}
+.latest ol{list-style:none;margin:0;padding:0}
+.latest li{display:grid;grid-template-columns:8rem minmax(0,1fr);gap:4px 24px;padding:14px 0;border-top:1px solid var(--rule)}
+.latest time{font-size:.85rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.latest .kind{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block}
+.latest a.t{font-family:var(--f-display);font-size:1.05rem;color:var(--heading);text-decoration:none}
+.latest a.t:hover{color:var(--accent);text-decoration:underline}
+@media (max-width:600px){.latest li{grid-template-columns:minmax(0,1fr)}}
 .facts{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:40px;font-size:.92rem;color:var(--muted)}
 .facts strong{color:var(--ink);font-weight:500}
 
@@ -198,6 +209,11 @@ footer p{margin:0}
     <a href="#research"><h3>Female health across the tree of life</h3><p>Placentation, gestation, and reproductive pace across mammals.</p></a>
     <a href="#research"><h3>Cancer across species</h3><p>Comparative oncology, from Peto's paradox to cancer as a cost of reproduction.</p></a>
   </div>
+
+  <section class="latest" aria-labelledby="h-latest">
+    <div class="latest-head"><h2 id="h-latest">Latest news</h2><a href="#news">All news</a></div>
+    <ol id="latest-list"></ol>
+  </section>
 
   <div class="facts">
     <span><strong>Principal Investigator:</strong> Amy M. Boddy, PhD</span>
@@ -554,6 +570,13 @@ function renderPubs(){
 }
 q.addEventListener("input",renderPubs); renderPubs();
 
+// Home page: show the three newest News posts (taken from the News page, so it updates itself)
+(function(){const list=document.getElementById("latest-list");if(!list)return;
+  document.querySelectorAll("#page-news .news > li").forEach((li,i)=>{if(i>2)return;
+    const t=li.querySelector("time"),k=li.querySelector(".kind"),h=li.querySelector("h2");
+    const item=document.createElement("li");
+    item.innerHTML=`<time>${t?t.textContent:""}</time><div><span class="kind">${k?k.textContent:""}</span><a class="t" href="#news">${h?h.innerHTML:""}</a></div>`;
+    list.appendChild(item);});})();
 const PAGES=["home","research","people","publications","cv","media","news"];
 function route(){
   const id=PAGES.includes(location.hash.slice(1))?location.hash.slice(1):"home";
